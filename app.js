@@ -1,4 +1,6 @@
 const express = require('express');
+const flash = require('connect-flash');
+const session = require('express-session')
 const expressLayouts = require('express-ejs-layouts')
 const app = express();
 const mongoose = require('mongoose');
@@ -21,6 +23,23 @@ app.set('views', path.join(__dirname, 'views'));
 
 //We need to be able to recieve data from the form
 app.use(express.urlencoded({ extended: false}))
+
+//Express session middleware
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}))
+
+//connect flash
+app.use(flash())
+
+//Global Vars
+app.use((req,res,next) => {
+    res.locals.success_msg = req.flash('success_msg')
+    res.locals.success_msg = req.flash('error_msg')
+    next()
+})
 
 //Routes
 //Anything with slash get from routes/index
