@@ -25,7 +25,7 @@ router.post('/register', (req, res) => {
     if(password.length < 6) {
         errors.push({ msg: 'Password should be at least 6 charechters'})
     }
-
+//IF any errors show up display form with current values
     if(errors.length > 0) {
         res.render('register', {
             errors,
