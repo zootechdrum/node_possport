@@ -8,4 +8,34 @@ router.get('/login', (req, res) => res.render('login'))
 router.get('/register', (req, res) => res.render('register'))
 
 
+//Use destructuring to get values from req.body
+router.post('/register', (req, res) => {
+    const { name, email, password, password2 } = req.body;
+    let errors = [];
+
+    //Check if all fields have been filled out
+    if(!name || !email || !password || !password2) {
+        error.push({msg: 'Please fill in all fields'})
+    }
+
+    if(password !== password2) {
+        errors.push({ msg: 'Passwords do not match'})
+    }
+
+    if(password.length < 6) {
+        errors.push({ msg: 'Password should be at least 6 charechters'})
+    }
+
+    if(errors.length > 0) {
+        res.render('register', {
+            errors,
+            name,
+            email,
+            password,
+            password2
+        })
+    }
+})
+
+
 module.exports = router;
